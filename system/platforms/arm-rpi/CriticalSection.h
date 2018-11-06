@@ -1,0 +1,9 @@
+#ifndef _CRITICAL_SECTION_H_
+#define _CRITICAL_DECTION_H_
+
+
+void ENTER_KERNEL_CRITICAL_SECTION (void);
+
+void EXIT_KERNEL_CRITICAL_SECTION (void);
+
+#endif /* _CRITICAL_SECTION_H_ */

@@ -1,0 +1,23 @@
+# This Makefile contains rules to build this directory.
+
+# Name of this component (the directory this file is stored in)
+COMP = device/ethernet
+
+# Source files for this component
+C_FILES =                \
+		colon2mac.c		 \
+        etherInit.c      \
+        etherClose.c     \
+        etherControl.c	 \
+		etherRead.c		 \
+		etherStat.c      \
+		vlanStat.c
+#        etherInterrupt.c \
+#        etherOpen.c      \
+#        etherWrite.c     \   
+
+S_FILES =
+
+# Add the files to the compile source path
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}

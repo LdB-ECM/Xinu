@@ -1,0 +1,15 @@
+
+# Name of this component (the directory this file is stored in)
+COMP = device/uart/pl011
+
+# Source files for this component
+C_FILES = pl011_uartKickTx.c \
+		  pl011_uartHwStat.c  \
+          pl011_uartInterrupt.c \
+		  pl011_SetCommState.c  \
+		  pl011_Install.c
+S_FILES =
+
+# Add the files to the compile source path
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}

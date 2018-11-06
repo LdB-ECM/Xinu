@@ -1,0 +1,12 @@
+
+# Name of this component (the directory this file is stored in)
+COMP = device/gpio/rpi_gpio
+
+# Source files for this component
+C_FILES = rpi_gpioHwInit.c rpi_gpioHwSet.c rpi_gpioHwGet.c rpi_gpioHwSetMode.c rpi_gpio_Install.c
+
+S_FILES =
+
+# Add the files to the compile source path
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}

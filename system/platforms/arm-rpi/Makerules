@@ -1,0 +1,25 @@
+# Rules to build files in this directory
+
+# Name of this component (the directory this file is stored in)
+COMP = system/platforms/arm-rpi
+
+# Source files for this component
+S_FILES = ctxsw.S          \
+          halt.S           \
+          intutils.S       \
+          irq_handler.S    \
+          memory_barrier.S \
+          pause.S
+
+C_FILES = setupStack.c       \
+          rpi-mailbox.c      \
+		  rpi-timer.c        \
+          dispatch.c         \
+          kexec.c            \
+          platforminit.c     \
+          watchdog.c		 \
+		  CriticalSection.c
+
+# Add the files to the compile source path
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}

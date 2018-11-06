@@ -1,0 +1,14 @@
+# This Makefile contains rules to build this directory.
+
+# Name of this component (the directory this file is stored in)
+COMP = device/drive/rpi_SDcard
+
+# Source files for this component
+C_FILES =  rpi_sdcard_Init.c   \
+           rpi_sdcard_Install.c      
+
+S_FILES =
+
+# Add the files to the compile source path
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}

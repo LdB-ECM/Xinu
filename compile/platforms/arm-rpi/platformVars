@@ -1,0 +1,66 @@
+#
+# Platform-specific Makefile definitions for the Raspberry Pi port of Embedded
+# Xinu.
+#
+
+
+# Include default ARM definitions
+include arch/arm/platformVars
+
+PLATFORM_NAME := Raspberry Pi1
+
+
+# Extra compiler and assembler flags to specifically target the ARM1176JZF-S CPU
+# used on the BCM2835 (used by the Raspberry Pi).
+# You can change between Hard and soft floats  with the -mfloat option
+# Hard floats use:  -mfloat-abi=hard    Soft floats use:  mfloat-abi=soft
+CODE_ARCH = arm6 aarch32
+CFLAGS   += -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard
+ASFLAGS  += -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard
+
+Pi2: CODE_ARCH = arm7 aarch32
+Pi2: CFLAGS   += -mcpu=cortex-a7
+Pi2: ASFLAGS  += -mcpu=cortex-a7
+
+Pi3: CODE_ARCH = arm8 aarch32
+Pi3: CFLAGS   += -mcpu=cortex-a53
+Pi3: ASFLAGS  += -mcpu=cortex-a53
+
+Pi3-64: CODE_ARCH = arm8 arch64
+Pi3-64: CFLAGS   += -mcpu=cortex-a53
+Pi3-64: ASFLAGS  += -mcpu=cortex-a53
+
+CODE_ARCH = arm6 aarch32
+
+# Add a define so we can test for Raspberry Pi in C code if absolutely needed
+DEFS     += -D_XINU_PLATFORM_ARM_RPI_
+
+# Embedded Xinu components to build into the kernel image
+APPCOMPS := apps      \
+            mailbox   \
+            network   \
+            shell     \
+            test
+
+# Embedded Xinu device drivers to build into the kernel image
+DEVICES  := uart				\
+			uart/ns16550		\
+			uart/pl011			\
+			framebuffer_rpi		\
+            usb					\
+			usb/dwc2000			\
+            usbkbd				\
+			null				\
+            raw					\
+			tty					\
+			loopback			\
+			ethernet			\
+            ethernet/smsc9512	\
+			ethernet/lan78xx	\
+			ethloop				\
+            tcp					\
+            telnet				\
+            udp					\
+			gpio				\
+			gpio/rpi_gpio
+			

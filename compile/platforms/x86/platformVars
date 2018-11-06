@@ -1,0 +1,21 @@
+#
+# Platform-specific Makefile definitions for the x86 port of Embedded Xinu.
+#
+
+# Include default x86 definitions
+include arch/x86/platformVars
+
+PLATFORM_NAME := Intel x86
+
+# Add flags to compile 32 bit code
+CFLAGS        += -m32
+ASFLAGS       += --32
+
+# Add a define so we can test for x86 in C code if absolutely needed
+DEFS          += -D_XINU_PLATFORM_X86_
+
+# Embedded Xinu components to build into the kernel image
+APPCOMPS      := apps mailbox shell test
+
+# Embedded Xinu device drivers to build into the kernel image
+DEVICES       := loopback tty uart-x86

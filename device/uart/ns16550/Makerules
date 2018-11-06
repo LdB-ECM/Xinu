@@ -1,0 +1,15 @@
+
+# Name of this component (the directory this file is stored in)
+COMP = device/uart/ns16550
+
+# Source files for this component
+C_FILES = ns16550_uartKickTx.c \
+		  ns16550_uartHwStat.c  \
+          ns16550_uartInterrupt.c \
+		  ns16550_SetCommState.c\
+		  ns16550_Install.c
+S_FILES =
+
+# Add the files to the compile source path
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}
