@@ -70,7 +70,7 @@
 
 #include <stdint.h>
 #include <xinu.h>
-#include <Interrupt.h>
+#include <interrupt.h>
 #include <CriticalSection.h>
 #include <mailbox.h>
 #include <string.h>

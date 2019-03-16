@@ -7,7 +7,7 @@
 #include <xinu.h>
 #include <telnet.h>
 #include <device.h>
-#include <Criticalsection.h>
+#include <CriticalSection.h>
 #include <stdarg.h>
 
 #include <stdio.h>
