@@ -1,4 +1,4 @@
-#
+#  -*- mode: makefile-gmake; -*-
 # Common Makefile targets to build a static library.
 #
 

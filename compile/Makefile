@@ -20,7 +20,7 @@ else
 	RM = rm -f
 	CP = cp -p
 	SLASH = /
-endif 
+endif
 #
 # Name of the platform to build Embedded Xinu for.  It must be the name of a
 # directory in compile/platforms/.  The value below specifies the default
@@ -49,7 +49,7 @@ CFLAGS  += -c
 
 # Optimize for size.
 # XXX CFLAGS  += -Os
-CFLAGS += -O3
+CFLAGS += -Os
 # Enable most useful compiler warnings.
 CFLAGS  += -Wall
 
@@ -63,7 +63,7 @@ CFLAGS  += -nostdinc
 # Do not allow gcc to replace function calls with calls to gcc builtins, except
 # when explicitly requested through a __builtin prefix.  This ensures that gcc
 # does not attempt to replace any of our code with its own.
-CFLAGS  += -fno-builtin
+CFLAGS  += -ffreestanding
 
 # Assume that the memory locations pointed to by any two pointers can alias,
 # even if the types of the variables pointed to are not compatible as defined in
@@ -268,13 +268,13 @@ DATA_OBJ := $(patsubst %,%.o,$(DATA_SRC))
 
 # Flags to get GCC to generate dependency information (in .d files) as a side
 # effect of compilation or assembly.
-DEPFLAGS := -MMD -MP 
+DEPFLAGS := -MMD -MP
 
 CFILES := $(strip $(filter-out %.S, $(COMP_SRC)))
 SFILES := $(strip $(filter-out %.c, $(COMP_SRC)))
 SOFILES := $(patsubst %.S,$(BUILD_DIR)/%.o, $(notdir $(SFILES)))
 COFILES := $(patsubst %.c,$(BUILD_DIR)/%.o, $(notdir $(CFILES)))
-DEPFILES := $(SOFILES:%.o=%.d) $(COFILES:%.o=%.d) 
+DEPFILES := $(SOFILES:%.o=%.d) $(COFILES:%.o=%.d)
 
 # Export variables for recursive make calls (such as when building libraries)
 export
@@ -285,19 +285,19 @@ export
 # Note: the default target is actually $(BOOTIMAGE) and is defined in
 # "platformVars".  But it will depend on "xinu.elf".
 
-xinu.elf: $(SOFILES) $(COFILES) $(DATA_OBJ) $(LIB_ARC) 
-	@echo "Linking" ==^> $@ 
+xinu.elf: $(SOFILES) $(COFILES) $(DATA_OBJ) $(LIB_ARC)
+	@echo "Linking" ==\> $@
 	$(CC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
-	@echo "Creating Binary" ==^> $(IMAGEFILE)
+	@echo "Creating Binary" ==\> $(IMAGEFILE)
 	$(COMPILER_ROOT)objcopy xinu.elf -O binary $(IMAGEFILE)
 	$(COMPILER_ROOT)nm -n xinu.elf > xinu.map
 
 $(SOFILES): $(SFILES)
-	@echo Assembling $(filter %/$(patsubst %.o,%.S,$(notdir $@)), $(SFILES)) ==^> $@
+	@echo Assembling $(filter %/$(patsubst %.o,%.S,$(notdir $@)), $(SFILES)) ==\> $@
 	$(CC) $(INCLUDE) $(CFLAGS) $(DEPFLAGS) $(filter %/$(patsubst %.o,%.S,$(notdir $@)), $(SFILES)) -c -o $@
 
 $(COFILES): $(CFILES)
-	@echo Compiling for $(CODE_ARCH) $(filter %/$(patsubst %.o,%.c,$(notdir $@)), $(CFILES)) ==^> $@
+	@echo Compiling for $(CODE_ARCH) $(filter %/$(patsubst %.o,%.c,$(notdir $@)), $(CFILES)) ==\> $@
 	$(CC) $(INCLUDE) $(CFLAGS) $(DEPFLAGS) $(filter %/$(patsubst %.o,%.c,$(notdir $@)), $(CFILES)) -c -o $@
 
 $(SFILES): ;
@@ -310,7 +310,7 @@ clean:
 	$(RM) $(subst /,$(SLASH), $(BUILD_DIR)/*.d)
 	$(RM) xinu.elf
 	$(RM) *.map
-.PHONY:	clean	
+.PHONY:	clean
 
 # Include generated dependency information for C and assembly files, if it
 # exists.

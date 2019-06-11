@@ -23,6 +23,8 @@
 *.elf
 *.boot
 *.bin
+*.img
+*.map
 
 # Xinu build files
 compile/config/config
