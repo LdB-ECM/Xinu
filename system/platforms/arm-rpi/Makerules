@@ -4,7 +4,8 @@
 COMP = system/platforms/arm-rpi
 
 # Source files for this component
-S_FILES = ctxsw.S          \
+S_FILES = start.S		\
+          ctxsw.S          \
           halt.S           \
           intutils.S       \
           irq_handler.S    \

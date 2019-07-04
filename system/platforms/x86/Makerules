@@ -6,7 +6,7 @@ COMP = system/platforms/x86
 # Source files for this component
 
 # Important system components
-S_FILES = startup.S pause.S
+S_FILES = start.S startup.S pause.S
 C_FILES = platforminit.c
 
 # Files for process control

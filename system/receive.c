@@ -26,8 +26,10 @@ xinu_message receive(void)
         thrptr->state = THRRECV;
 		EXIT_KERNEL_CRITICAL_SECTION();
         resched();
+		ENTER_KERNEL_CRITICAL_SECTION();
     }
     msg = thrptr->msg;          /* retrieve message                */
     thrptr->hasmsg = FALSE;     /* reset message flag              */
+	EXIT_KERNEL_CRITICAL_SECTION();
     return msg;
 }

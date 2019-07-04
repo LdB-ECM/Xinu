@@ -14,23 +14,21 @@ PLATFORM_NAME := Raspberry Pi1
 # used on the BCM2835 (used by the Raspberry Pi).
 # You can change between Hard and soft floats  with the -mfloat option
 # Hard floats use:  -mfloat-abi=hard    Soft floats use:  mfloat-abi=soft
-CODE_ARCH = arm6 aarch32
-CFLAGS   += -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard
-ASFLAGS  += -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard
+Pi1: CODE_ARCH = arm6 aarch32
+Pi1: CFLAGS   += -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard
+Pi1: ASFLAGS  += -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard
 
 Pi2: CODE_ARCH = arm7 aarch32
-Pi2: CFLAGS   += -mcpu=cortex-a7
-Pi2: ASFLAGS  += -mcpu=cortex-a7
+Pi2: CFLAGS   += -mcpu=cortex-a7 -mfpu=neon -mfloat-abi=hard
+Pi2: ASFLAGS  += -mcpu=cortex-a7 -mfpu=neon -mfloat-abi=hard
 
 Pi3: CODE_ARCH = arm8 aarch32
-Pi3: CFLAGS   += -mcpu=cortex-a53
-Pi3: ASFLAGS  += -mcpu=cortex-a53
+Pi3: CFLAGS   += -mcpu=cortex-a53 -mfpu=neon-vfpv4 -mfloat-abi=hard
+Pi3: ASFLAGS  += -mcpu=cortex-a53 -mfpu=neon-vfpv4 -mfloat-abi=hard
 
 Pi3-64: CODE_ARCH = arm8 arch64
-Pi3-64: CFLAGS   += -mcpu=cortex-a53
-Pi3-64: ASFLAGS  += -mcpu=cortex-a53
-
-CODE_ARCH = arm6 aarch32
+Pi3-64: CFLAGS   += -mcpu=cortex-a53+fp+simd
+Pi3-64: ASFLAGS  += -mcpu=cortex-a53+fp+simd
 
 # Add a define so we can test for Raspberry Pi in C code if absolutely needed
 DEFS     += -D_XINU_PLATFORM_ARM_RPI_

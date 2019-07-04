@@ -12,7 +12,7 @@
 
 ifeq ($(OS), Windows_NT)
 	#WINDOWS USE THESE DEFINITIONS
-	RM = -del /q /f
+	RM = -del /q
 	CP = copy
 	SLASH = \\
 else
@@ -44,12 +44,9 @@ BUILD_DIR ?= $(TOPDIR)/build
 # platformVars can add more flags if desired.
 CFLAGS  :=
 
-# Do not perform linking until the end.
-CFLAGS  += -c
-
 # Optimize for size.
 # XXX CFLAGS  += -Os
-CFLAGS += -Os
+CFLAGS += -O3
 # Enable most useful compiler warnings.
 CFLAGS  += -Wall
 
@@ -115,7 +112,7 @@ LDLIBS  := -lc -lm -lgcc
 
 # Set default include directories.  platformVars can add additional directories
 # to this if really needed. The build directory is needed for dependency building
-INCLUDE := -I$(TOPDIR) -I$(TOPDIR)/include -I$(TOPDIR)/system/platforms/$(PLATFORM)  
+INCLUDE := -I$(TOPDIR)/include -I$(TOPDIR)/system/platforms/$(PLATFORM)  
 
 # Override this as -DDETAIL to enable certain debugging messages in Embedded
 # Xinu.
@@ -224,9 +221,9 @@ LIBDIR   := $(TOPDIR)/lib
 # With GNU make, if you define the magic target .SILENT, `make' will not echo
 # recipes as they are executed.  We use this mode by default and allow the
 # normal mode to be switched on by overriding VERBOSE to any value.
-ifeq ($(VERBOSE),)
-.SILENT:
-endif
+#ifeq ($(VERBOSE),)
+#.SILENT:
+#endif
 
 ###########################
 # Source file information #
@@ -236,8 +233,7 @@ endif
 # Each component is a directory in the source tree and should include a
 # Makerules specifying what files to include
 # (The loader should always be first, ensuring the image starts with it.)
-SYSCOMPS := loader/platforms/$(PLATFORM) \
-            system/platforms/$(PLATFORM) \
+SYSCOMPS := system/platforms/$(PLATFORM) \
             system
 
 # List of device driver components to build into Xinu.  Generated from DEVICES,
@@ -287,18 +283,18 @@ export
 
 xinu.elf: $(SOFILES) $(COFILES) $(DATA_OBJ) $(LIB_ARC)
 	@echo "Linking" ==\> $@
-	$(CC) -o $@ $(LDFLAGS) $^ $(LDLIBS)
+	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@ $(LDLIBS)
 	@echo "Creating Binary" ==\> $(IMAGEFILE)
 	$(COMPILER_ROOT)objcopy xinu.elf -O binary $(IMAGEFILE)
 	$(COMPILER_ROOT)nm -n xinu.elf > xinu.map
 
 $(SOFILES): $(SFILES)
-	@echo Assembling $(filter %/$(patsubst %.o,%.S,$(notdir $@)), $(SFILES)) ==\> $@
-	$(CC) $(INCLUDE) $(CFLAGS) $(DEPFLAGS) $(filter %/$(patsubst %.o,%.S,$(notdir $@)), $(SFILES)) -c -o $@
+	echo Assembling $(filter %/$(patsubst %.o,%.S,$(notdir $@)), $(SFILES)) ==> $@
+	@$(CC) $(INCLUDE) $(CFLAGS) $(DEPFLAGS) $(filter %/$(patsubst %.o,%.S,$(notdir $@)), $(SFILES)) -c -o $@
 
 $(COFILES): $(CFILES)
-	@echo Compiling for $(CODE_ARCH) $(filter %/$(patsubst %.o,%.c,$(notdir $@)), $(CFILES)) ==\> $@
-	$(CC) $(INCLUDE) $(CFLAGS) $(DEPFLAGS) $(filter %/$(patsubst %.o,%.c,$(notdir $@)), $(CFILES)) -c -o $@
+	echo Compiling for $(CODE_ARCH) $(filter %/$(patsubst %.o,%.c,$(notdir $@)), $(CFILES)) ==> $@
+	@$(CC) $(INCLUDE) $(CFLAGS) $(DEPFLAGS) $(filter %/$(patsubst %.o,%.c,$(notdir $@)), $(CFILES)) -c -o $@
 
 $(SFILES): ;
 
